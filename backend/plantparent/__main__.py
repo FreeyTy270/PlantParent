@@ -1,15 +1,18 @@
+import sys
 
 from sqlmodel import create_engine, SQLModel
 
-from backend.app.database import RecordsKeeper
-from backend.app.models import Home, Plant
+from backend.plantparent.database import RecordsKeeper
+from backend.plantparent.models import Home, Plant
 
 
 def main():
+    ## Setup db engine and make tables if needed
     sql_file = "sqlite:///plantparent.db"
-
     printing_press = create_engine(sql_file, echo=True)
     SQLModel.metadata.create_all(printing_press)
+
+    ## Create db interaction object
     scribe = RecordsKeeper(printing_press)
 
     house = Home(name="House")
@@ -20,5 +23,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
-
+    if main():
+        sys.exit(0)
+    else:
+        sys.exit(1)
