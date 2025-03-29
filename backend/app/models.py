@@ -1,19 +1,26 @@
-from __future__ import annotations
 
 from datetime import date
+from typing import List
+
+from pydantic import ConfigDict
 from typing_extensions import Annotated
 
-from sqlmodel import SQLModel, Field, Date
+from sqlmodel import SQLModel, Relationship, Field, Date
+
+class ItemBase(SQLModel):
+    pass
 
 
-class Home(SQLModel, table=True):
+class Home(ItemBase, table=True):
     name: Annotated[str | None, Field(default=None, primary_key=True)]
-    plants: Annotated[list[Plant], Field(default_factory=list)]
+    plants: List["Plant"] | None = Relationship(back_populates="location")
 
 
-class Plant(SQLModel, table=True):
+class Plant(ItemBase, table=True):
     id: Annotated[int | None, Field(default=None, primary_key=True)]
-    last_watered: Annotated[Date | None, Field(default=None, nullable=False)]
+    last_watered: Annotated[date | None, Field(default=None, nullable=False)]
     check_rate: int
-    location: Annotated[Home, Field(foreign_key="home.id")]
-    adoption_date: Annotated[Date, Field(default=date.today(), nullable=False)]
+    adoption_date: Annotated[date, Field(default=date.today(), nullable=False)]
+    location_name: Annotated[str, Field(foreign_key="home.name")]
+    location: Home | None = Relationship(back_populates="plants")
+

@@ -1,25 +1,32 @@
-from sqlmodel import SQLModel, create_engine, Session
 
-from .models import Home, Plant
+from sqlmodel import SQLModel, Session
+
+from backend.app.models import ItemBase
 
 
 class RecordsKeeper:
-    def __init__(self, db_path: str, debug: bool = False):
-        self.engine = create_engine(db_path, echo=debug)
+    def __init__(self, engine):
+        self.engine = engine
 
-    def build_a_home(self, address: str) -> Home:
-        new_home = Home(name=address)
 
-        with Session(self.engine) as contractor:
-            contractor.add(new_home)
-            contractor.commit()
-            contractor.refresh(new_home)
+    def add_single(self, item: ItemBase):
 
-        return new_home
+        with Session(self.engine) as session:
+            session.add(item)
+            session.commit()
+            session.refresh(item)
 
-    def adopt_a_plant(
-            self,
-            name: str,
-            check_rate: int,
-    ) -> Plant:
-        pass
+
+    def add_multi(self, items: list[ItemBase]):
+
+        with Session(self.engine) as session:
+            for item in items:
+                session.add(item)
+
+            session.commit()
+
+
+    def remove(self, item: ItemBase):
+        with Session(self.engine) as session:
+            session.delete(item)
+            session.commit()
