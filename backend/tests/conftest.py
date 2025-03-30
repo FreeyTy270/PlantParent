@@ -33,11 +33,11 @@ def hire_scribe(create_db_engine):
 @pytest.fixture
 def buy_manufactured(hire_scribe):
     home_address = 1
-    house = models.Home(name="Manufactured Home")
+    house = models.Room(name="Manufactured Room")
     try:
         hire_scribe.add_single(house)
     except IntegrityError:
-        house.name = f"Manufactured Home {home_address}"
+        house.name = f"Manufactured Room {home_address}"
         hire_scribe.add_single(house)
         home_address += 1
 

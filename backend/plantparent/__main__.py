@@ -3,7 +3,7 @@ import sys
 from sqlmodel import create_engine, SQLModel
 
 from backend.plantparent.database import RecordsKeeper
-from backend.plantparent.models import Home, Plant
+from backend.plantparent.models import Room, Plant
 
 
 def main():
@@ -15,7 +15,7 @@ def main():
     ## Create db interaction object
     scribe = RecordsKeeper(printing_press)
 
-    house = Home(name="House")
+    house = Room(name="House")
 
     scribe.add_single(house)
 

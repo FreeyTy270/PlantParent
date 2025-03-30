@@ -11,7 +11,7 @@ class ItemBase(SQLModel):
     pass
 
 
-class Home(ItemBase, table=True):
+class Room(ItemBase, table=True):
     name: Annotated[str | None, Field(default=None, primary_key=True)]
     plants: List["Plant"] | None = Relationship(back_populates="location")
 
@@ -24,11 +24,10 @@ class Plant(ItemBase, table=True):
     check_rate: int
     adoption_date: Annotated[date, Field(default=date.today(), nullable=False)]
     location_name: Annotated[
-        str | None, Field(foreign_key="home.name", ondelete="SET NULL")
+        str | None, Field(foreign_key="room.name", ondelete="SET NULL")
     ]
-    location: Home | None = Relationship(
-        sa_relationship_kwargs={"lazy": "joined"}, back_populates="plants"
-    )
+    location: Room | None = Relationship(
+        sa_relationship_kwargs={"lazy": "joined"}, back_populates="plants")
 
     @computed_field
     @property
