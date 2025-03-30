@@ -27,7 +27,7 @@ path = "./backend/plantparent/__init__.py"
 packages = ["backend/plantparent"]
 
 [tool.pytest.ini_options]
-addopts = "-vv --capture=tee-sys"
+addopts = "-v --capture=tee-sys"
 testpaths = [
     "backend/tests"
 ]
