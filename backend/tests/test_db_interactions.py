@@ -1,7 +1,6 @@
-from sqlmodel import SQLModel, Session, select
+from sqlmodel import Session, select
 
 from plantparent.models import Home, Plant
-from plantparent.database import RecordsKeeper
 
 
 def test_build_a_home(hire_scribe):
@@ -14,13 +13,15 @@ def test_build_a_home(hire_scribe):
 
     assert result.name == "Test House"
 
+
 def test_demolition_team(hire_scribe, buy_manufactured):
 
     hire_scribe.remove(buy_manufactured)
 
     with Session(hire_scribe.engine) as session:
         result = session.exec(
-            select(Home).where(Home.name == buy_manufactured.name)).one_or_none()
+            select(Home).where(Home.name == buy_manufactured.name)
+        ).one_or_none()
 
     assert not result
 
@@ -36,10 +37,15 @@ def test_adopt_a_plant(hire_scribe, buy_manufactured):
     hire_scribe.add_single(new_plant)
 
     with Session(hire_scribe.engine) as session:
-        result = session.exec(select(Plant)).one()
+        result = session.exec(select(Plant).join(Home)).first()
 
-    print(result)
-    assert result
+        print(result)
+        plant = result
+        plant_house = plant.location
+        print(plant_house)
+
+    assert plant.nickname == "New Plant"
+    assert plant_house.name == buy_manufactured.name
 
 
 def test_plant_shopping_spree(hire_scribe, buy_manufactured):
@@ -47,23 +53,27 @@ def test_plant_shopping_spree(hire_scribe, buy_manufactured):
     plant_objs = []
 
     for plant in plants:
-        plant_objs.append(Plant(
-            nickname=plant,
-            check_rate=7,
-            location=buy_manufactured,
-        ))
+        plant_objs.append(
+            Plant(
+                nickname=plant,
+                check_rate=7,
+                location=buy_manufactured,
+            )
+        )
 
     hire_scribe.add_multi(plant_objs)
 
     with Session(hire_scribe.engine) as session:
         result = session.exec(
-            select(Plant).where(Plant.location_name == buy_manufactured.name)
-            .order_by(Plant.nickname))
-
+            select(Plant, Home)
+            .where(Plant.name != "Test Plant")
+            .join(Home)
+            .order_by(Plant.nickname)
+        )
+        print(result)
         result = [plant for plant in result]
-    print(result)
+        print(result)
 
-    assert all(plant_name == plant.nickname for plant_name, plant in zip(plants,
-                                                                     result))
-
-
+    assert all(
+        plant_name == plant.nickname for plant_name, plant in zip(plants.sort(), result)
+    )

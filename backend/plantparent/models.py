@@ -23,8 +23,12 @@ class Plant(ItemBase, table=True):
     last_watered: Annotated[date | None, Field(default=None)]
     check_rate: int
     adoption_date: Annotated[date, Field(default=date.today(), nullable=False)]
-    location_name: Annotated[str, Field(foreign_key="home.name")]
-    location: Home | None = Relationship(back_populates="plants")
+    location_name: Annotated[
+        str | None, Field(foreign_key="home.name", ondelete="SET NULL")
+    ]
+    location: Home | None = Relationship(
+        sa_relationship_kwargs={"lazy": "joined"}, back_populates="plants"
+    )
 
     @computed_field
     @property

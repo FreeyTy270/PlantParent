@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Session
+from sqlmodel import Session
 
 from plantparent.models import ItemBase
 
@@ -15,8 +15,7 @@ class RecordsKeeper:
 
     def add_multi(self, items: list[ItemBase]):
         with Session(self.engine) as session:
-            for item in items:
-                session.add(item)
+            session.add_all(items)
 
             session.commit()
 
