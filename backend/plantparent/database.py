@@ -17,6 +17,8 @@ class RecordsKeeper:
         with Session(self.engine) as session:
             session.add_all(items)
             session.commit()
+            for item in items:
+                session.refresh(item)
 
     def remove(self, item: ItemBase):
         with Session(self.engine) as session:

@@ -7,6 +7,9 @@ from backend.plantparent.models import Room, Plant
 
 
 def main():
+
+    result: bool = True
+
     ## Setup db engine and make tables if needed
     sql_file = "sqlite:///plantparent.db"
     printing_press = create_engine(sql_file, echo=True)
@@ -20,6 +23,8 @@ def main():
     scribe.add_single(house)
 
     print(f"Finished adding {house.__str__()}")
+
+    return True
 
 
 if __name__ == "__main__":
