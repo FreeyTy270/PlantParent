@@ -1,6 +1,10 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sqlmodel import Session
 
-from plantparent.models import ItemBase
+if TYPE_CHECKING:
+    from plantparent.models import ItemBase
 
 
 class RecordsKeeper:

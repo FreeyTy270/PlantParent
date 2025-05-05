@@ -1,9 +1,9 @@
 import sys
 
+import uvicorn
 from sqlmodel import create_engine, SQLModel
 
 from backend.plantparent.database import RecordsKeeper
-from backend.plantparent.models import Room, Plant
 
 
 def main():
@@ -12,23 +12,16 @@ def main():
 
     ## Setup db engine and make tables if needed
     sql_file = "sqlite:///plantparent.db"
-    printing_press = create_engine(sql_file, echo=True)
-    SQLModel.metadata.create_all(printing_press)
-
-    ## Create db interaction object
-    scribe = RecordsKeeper(printing_press)
-
-    house = Room(name="House")
-
-    scribe.add_single(house)
-
-    print(f"Finished adding {house.__str__()}")
+    engine = create_engine(sql_file, echo=True)
+    printing_press = RecordsKeeper(engine)
+    SQLModel.metadata.create_all(engine)
 
     return True
 
 
 if __name__ == "__main__":
     if main():
+        uvicorn.run("plantparent.api:app", host="0.0.0.0", port=8000, reload=True)
         sys.exit(0)
     else:
         sys.exit(1)

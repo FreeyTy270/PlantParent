@@ -3,6 +3,8 @@ import json
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from plantparent.models import Plant
+
 app = FastAPI()
 
 # Configure CORS
@@ -23,4 +25,9 @@ async def root():
 @app.get("/existing")
 async def existing():
     print("Answering a response!!")
-    return {"Current Plants": ["Plant 1", "Plant 2", "Plant 3"]}
+    current_plants = [
+        Plant(nickname="Plant 1", check_rate=7),
+        Plant(nickname="Plant 2", check_rate=14),
+        Plant(nickname="Plant 3", check_rate=21),
+    ]
+    return {current_plants}
