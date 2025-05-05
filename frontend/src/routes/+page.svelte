@@ -2,13 +2,12 @@
     import {onMount} from 'svelte';
     import type {Plant} from "$lib/types";
 
-    let currentPlants: Array<Plant>;
+    let currentPlants = $state<Array<Plant> | null>(null);
 
-    onMount(() => {
-        // Initial data fetch
-        async () => {
-            const fetched = await fetch('http://localhost:8000/existing');
-            currentPlants = await fetched.json();
+    onMount(async () => {
+        const fetched = await fetch('http://localhost:8000/existing');
+        currentPlants = await fetched.json();
+        if (currentPlants) {
             currentPlants.forEach((plant) => {
                 console.log("Plant Right Now:" + plant)
             })
