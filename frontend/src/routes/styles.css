@@ -1,0 +1,51 @@
+.Page-Title {
+	font-size: 2rem;
+	font-weight: bold;
+	color: aliceblue;
+	margin-bottom: 1.5rem;
+	font-style: oblique;
+	text-decoration: underline;
+	text-underline-offset: 0.25rem;
+	text-decoration-thickness: 0.125rem;
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 2rem;
+}
+
+.dashboard-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: 1rem;
+	margin-top: 1.5rem;
+}
+
+.card {
+	font-family: 'helvetica', sans-serif;
+	background: #2f4f4f;
+	padding: 1.5rem;
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: aliceblue;
+	text-decoration: underline;
+	text-underline-offset: 0.25rem;
+	text-decoration-thickness: 0.125rem;
+}
+
+.scientific-name {
+	font-size: 1rem;
+	color: aliceblue;
+	font-style: italic;
+}
+
+.check-rate {
+	font-size: 1rem;
+	color: aliceblue;
+}
