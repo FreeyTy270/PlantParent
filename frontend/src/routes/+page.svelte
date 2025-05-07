@@ -6,6 +6,10 @@
   const {data}: PageProps = $props();
   const {returnedPlants} = data
 
+  let adopt = async () => {
+    console.log('adopted New Plant!!')
+  }
+
 </script>
 
 <main class="container">
@@ -22,7 +26,10 @@
         <p class="check-rate">Check soil every {plant.check_rate} days</p>
         <p class="check-rate">Next check date: {plant.next_check}</p>
       </div>
-    {/each}
+  {/each}
+  </div>
+  <div class="container">
+    <button class="User-Interactive" onclick={adopt}>Adopt a Plant!</button>
   </div>
 </main>
 

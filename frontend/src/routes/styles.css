@@ -25,7 +25,7 @@
 .card {
 	font-family: 'helvetica', sans-serif;
 	background: #2f4f4f;
-	padding: 1.5rem;
+	padding: 1rem;
 	border-radius: 8px;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -48,4 +48,18 @@
 .check-rate {
 	font-size: 1rem;
 	color: aliceblue;
+}
+
+.User-Interactive {
+	font-family: 'helvetica', sans-serif;
+	background: #2f4f4f;
+	padding: 1.5rem;
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	color: aliceblue;
+}
+
+.User-Interactive:hover {
+	background: cadetblue;
+	color: black;
 }

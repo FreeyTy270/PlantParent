@@ -1,4 +1,4 @@
-import json
+import logging
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from plantparent.models import Plant
 
 app = FastAPI()
+log = logging.getLogger(__file__)
 
 # Configure CORS
 app.add_middleware(
@@ -36,6 +37,11 @@ async def existing():
         plant3.model_dump(),
     ]
     return current_plants
+
+@app.post("/add")
+async def add(plant: Plant):
+    log.info(f"Adding plant: {plant.nickname}")
+    return {"message": f"Added plant: {plant.nickname}"}
 
 
 if __name__ == "__main__":
