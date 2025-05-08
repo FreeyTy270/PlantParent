@@ -1,13 +1,14 @@
 <script lang="ts">
   // import { onMount } from 'svelte';
   import type {PageProps} from './$types';
-  // import type { Plant } from '$lib/types';
+  import AdoptionForm from "./AdoptionForm.svelte";
 
   const {data}: PageProps = $props();
   const {returnedPlants} = data
-
+  let showAdoptionForm = $state(false)
   let adopt = async () => {
     console.log('adopted New Plant!!')
+    showAdoptionForm = !showAdoptionForm
   }
 
 </script>
@@ -26,11 +27,14 @@
         <p class="check-rate">Check soil every {plant.check_rate} days</p>
         <p class="check-rate">Next check date: {plant.next_check}</p>
       </div>
-  {/each}
+    {/each}
   </div>
   <div class="container">
     <button class="User-Interactive" onclick={adopt}>Adopt a Plant!</button>
   </div>
+
+  <AdoptionForm bind:showAdoptionForm>
+  </AdoptionForm>
 </main>
 
 <style>
