@@ -1,14 +1,14 @@
 <script lang="ts">
   // import { onMount } from 'svelte';
   import type {PageProps} from './$types';
-  import AdoptionForm from "./AdoptionForm.svelte";
+  import {FormSelector} from "$lib/types";
+  import AdoptionForm from "./adoption/AdoptionForm.svelte";
 
   const {data}: PageProps = $props();
   const {returnedPlants} = data
   let showAdoptionForm = $state(false)
   let adopt = async () => {
     console.log('adopted New Plant!!')
-    showAdoptionForm = !showAdoptionForm
   }
 
 </script>
@@ -33,10 +33,10 @@
     <button class="User-Interactive" onclick={adopt}>Adopt a Plant!</button>
   </div>
 
-  <AdoptionForm bind:showAdoptionForm>
+  <AdoptionForm show ={showAdoptionForm}>
   </AdoptionForm>
 </main>
 
 <style>
-  @import './styles.css';
+  @import '../styles/styles.css';
 </style>
