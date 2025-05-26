@@ -8,9 +8,3 @@ export interface Plant {
 	next_check: Date;
 }
 
-export enum FormSelector {
-	NAMES = 'Names',
-	CARE_DETAILS = 'Care Details',
-	SOIL_DETAILS = 'Soil Details',
-	LOCATION = 'Location',
-}

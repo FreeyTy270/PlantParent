@@ -1,22 +1,21 @@
 <script lang="ts">
   // import { onMount } from 'svelte';
   import type {PageProps} from './$types';
-  import {FormSelector} from "$lib/types";
   import AdoptionForm from "./adoption/AdoptionForm.svelte";
 
   const {data}: PageProps = $props();
   const {returnedPlants} = data
   let showAdoptionForm = $state(false)
   let adopt = async () => {
-    console.log('adopted New Plant!!')
+    console.log('adopting a New Plant!!')
+    showAdoptionForm = true;
   }
-
 </script>
 
 <main class="container">
   <h1 class="Page-Title">Your Plant Parent Dashboard</h1>
   <div class="dashboard-grid">
-    {#each returnedPlants as plant}
+    {#each data.returnedPlants as plant}
       <div class="card">
         <h2 class="card-title">{plant.nickname}</h2>
         {#if plant.scientific_name}
@@ -32,8 +31,7 @@
   <div class="container">
     <button class="User-Interactive" onclick={adopt}>Adopt a Plant!</button>
   </div>
-
-  <AdoptionForm show ={showAdoptionForm}>
+  <AdoptionForm bind:show={showAdoptionForm}>
   </AdoptionForm>
 </main>
 

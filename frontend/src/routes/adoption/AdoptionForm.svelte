@@ -1,100 +1,88 @@
 <script>
-  import {FormSelector} from "$lib/types.ts";
-  import { formBodySnippet } from "./FormBodies.svelte";
+  import { namesBody } from "./FormNamesBody.svelte";
+  import { careBody } from "./FormCareBody.svelte";
+  import {slide} from "svelte/transition";
+  import {isObjectType} from "eslint-plugin-svelte/lib/utils/ts-utils";
 
-  let {show} = $props();
+  let {show=$bindable(false)} = $props();
   let dialog = $state(); // HTMLDialogElement
-  let formState = $state(FormSelector.NAMES);
+  let formState = $state("NAMES");
 
   $effect(() => {
     if (show) dialog.showModal();
-    formState = FormSelector.NAMES;
+    formState = "NAMES";
   });
 </script>
+
+{#snippet formHeader()}
+  <th>
+    <h2>{formState}</h2>
+  </th>
+{/snippet}
+
+{#snippet carouselNavButtons(slideNum)}
+  <li class="carousel__navigation-item">
+    <a href="#carousel__slide{slideNum}"
+      class="carousel__navigation-button">
+      Go to slide {slideNum}
+    </a>
+  </li>
+{/snippet}
+
+{#snippet carouselSlide(slideName)}
+  <li id="carousel__slide{slideName}"
+      class="carousel__slide">
+    {#if slideName === 1}
+      {@render namesBody()}
+    {:else if slideName === 2}
+      {@render careBody()}
+    {/if}
+    <div class="carousel__snapper">
+      {#if slideName === 1}
+        <a href="#carousel__slide4"
+           class="carousel__prev">Go to last slide</a>
+      {:else}
+        <a href="#carousel__slide{slideName - 1}"
+             class="carousel__prev">Go to previous slide</a>
+      {/if}
+      {#if slideName === 4}
+        <a href="#carousel__slide1"
+             class="carousel__next">Go to first slide</a>
+      {:else}
+        <a href="#carousel__slide{slideName + 1}"
+         class="carousel__next">Go to next slide</a>
+      {/if}
+    </div>
+  </li>
+{/snippet}
 
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <dialog
   bind:this={dialog}
   onclose={() => (show = false)}>
-
-  {#snippet formHeader()}
-    <h2>{formState}</h2>
-  {/snippet/}
-
-  <div id="plant-adoption-form">
-    <h1>Plant Adoption Forms</h1>
-    <form method="POST">
-      <table class="form-table">
-        <thead>
-          <tr>{@render formHeader}</tr>
-        </thead>
-        <tbody>
-        {@render }
-        <tr>
-          <td>
-            <button>Bring Home</button>
-          </td>
-          <td>
-            <button onclick={() => dialog.close()}>close modal</button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </form>
-    <!-- svelte-ignore a11y_autofocus -->
-  </div>
+  <form method="post" action="/">
+    <section class="carousel" aria-label="Gallery">
+      <ol class="carousel__viewport">
+        {@render carouselSlide(1)}
+        {@render carouselSlide(2)}
+        {@render carouselSlide(3)}
+        {@render carouselSlide(4)}
+      </ol>
+      <aside class="carousel__navigation">
+        <ol class="carousel__navigation-list">
+          {@render carouselNavButtons(1)}
+          {@render carouselNavButtons(2)}
+          {@render carouselNavButtons(3)}
+          {@render carouselNavButtons(4)}
+        </ol>
+      </aside>
+    </section>
+    <div id="form-buttons">
+      <button type="button" onclick={() => dialog.close()}>close modal</button>
+    </div>
+  </form>
 </dialog>
 
 <style>
-  dialog {
-    font-family: 'helvetica', sans-serif;
-    background: #2f4f4f;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: auto;
-  }
-
-  dialog::backdrop {
-    background: rgba(0, 0, 0, 0.3);
-  }
-
-  dialog > div {
-    padding: 1em;
-  }
-
-  dialog[open] {
-    animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-
-  @keyframes zoom {
-    from {
-      transform: scale(0.95);
-    }
-    to {
-      transform: scale(1);
-    }
-  }
-
-  dialog[open]::backdrop {
-    animation: fade 0.2s ease-out;
-  }
-
-  @keyframes fade {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  button {
-    display: block;
-    font-family: 'helvetica', sans-serif;
-    background: var(--color-mint-500);
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+  @import "../../styles/carousel.css";
 </style>
