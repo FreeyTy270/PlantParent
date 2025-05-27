@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -25,9 +26,10 @@ async def root():
 
 @app.get("/existing")
 async def existing():
-    print("Answering a response!!")
-    plant1 = Plant(nickname="Plant 1", scientific_name="Babymus Plantimus",
-                   check_rate=7)
+    print(f"Answering a response at {datetime.now()}!!")
+    plant1 = Plant(
+        nickname="Plant 1", scientific_name="Babymus Plantimus", check_rate=7
+    )
     plant2 = Plant(nickname="Plant 2", check_rate=14)
     plant3 = Plant(nickname="Plant 3", check_rate=21)
 
@@ -37,6 +39,7 @@ async def existing():
         plant3.model_dump(),
     ]
     return current_plants
+
 
 @app.post("/add")
 async def add(plant: Plant):
