@@ -61,7 +61,7 @@
   class="carousel"
   bind:this={dialog}
   onclose={() => (show = false)}>
-  <form id="adoptionForm" aria-label="Gallery" method="POST" action="http://localhost:8000/add">
+  <form id="adoptionForm" aria-label="Gallery" method="POST" action="?/addPlant">
     <ol class="carousel__viewport">
       {@render carouselSlide(1)}
       {@render carouselSlide(2)}
@@ -84,5 +84,5 @@
 </dialog>
 
 <style>
-  @import "../../styles/carousel.css";
+  @import "../styles/carousel.css";
 </style>

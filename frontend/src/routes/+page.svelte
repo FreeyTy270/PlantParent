@@ -1,9 +1,9 @@
 <script lang="ts">
   // import { onMount } from 'svelte';
   import type {PageProps} from './$types';
-  import AdoptionForm from "./adoption/AdoptionForm.svelte";
+  import AdoptionForm from "./AdoptionForm.svelte";
 
-  const {data}: PageProps = $props();
+  const {form, data}: PageProps = $props();
   const {returnedPlants} = data
   let showAdoptionForm = $state(false)
   let adopt = async () => {
@@ -33,6 +33,14 @@
   </div>
   <AdoptionForm bind:show={showAdoptionForm}>
   </AdoptionForm>
+  <div>
+    {#if form?.success}
+      <p class="success">Your plant has been added to the database!</p>
+    {/if}
+    {#if form?.error}
+      <p>{form.message} -- {form.error}</p>
+    {/if}
+  </div>
 </main>
 
 <style>

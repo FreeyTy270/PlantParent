@@ -28,3 +28,8 @@ export class Plant {
   }
 }
 
+export interface apiResponse {
+  success: boolean;
+  message: string;
+  error?: string;
+}

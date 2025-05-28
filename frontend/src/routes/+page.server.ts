@@ -1,25 +1,35 @@
 import type {Actions} from "@sveltejs/kit";
-import type {Plant} from "$lib/types";
+import {type apiResponse, Plant} from "$lib/types";
 
 
 export const actions: Actions = {
   addPlant: async ({fetch, request}) => {
-    const formData = await request.formData();
-    let newPlant: Plant = {
-      nickname: String(formData.get('nickname')),
-      scientific_name: String(formData.get('scientific_name')),
-      last_watered: Date(formData.get('last_watered')),
-      check_rate: formData.get('check_rate'),
-      adoption_date: formData.get('adoption_date'),
-      location: formData.get('location'),
-      next_check: formData.get('next_check'),
-    }
-    const response = await fetch('http://localhost:8000/add', {
+    const formData: FormData = await request.formData();
+
+    let lastWatered: Date = new Date(String(formData.get('last_watered')));
+    let adoptionDate: Date = new Date(String(formData.get('adoption_date')));
+    let nextCheck: Date = new Date(String(formData.get('next_check')));
+    let newName: string = String(formData.get('nickname'));
+
+    // let newPlant: Plant = new Plant(
+    //   String(formData.get('plant_name')),
+    //   String(formData.get('scientific_name')),
+    //   lastWatered,
+    //   Number(formData.get('check_rate')),
+    //   adoptionDate,
+    //   String(formData.get('location')),
+    //   nextCheck,
+    // )
+    const response: Response = await fetch('http://localhost:8000/add', {
       method: 'POST',
-      body: newPlant
+      body: JSON.stringify({nickname: newName}),
+      headers: {
+        'Content-Type': 'application/json',
+      }
     });
 
-    const message = response.json();
-    return {message};
+    console.log(response);
+
+    return await response.json() as Promise<apiResponse>;
   }
 }
