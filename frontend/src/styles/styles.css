@@ -22,12 +22,18 @@
 	margin-top: 1.5rem;
 }
 
+.banner-message,
 .card {
 	font-family: 'helvetica', sans-serif;
 	background: #2f4f4f;
 	padding: 1rem;
 	border-radius: 8px;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+	background: cadetblue;
+	color: black;
 }
 
 .card-title {
@@ -62,4 +68,15 @@
 .User-Interactive:hover {
 	background: cadetblue;
 	color: black;
+}
+
+.banner-message {
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: aliceblue;
+	text-decoration: underline;
+	text-underline-offset: 0.25rem;
+	text-decoration-thickness: 0.125rem;
+	width: 100%;
+	text-align: center;
 }

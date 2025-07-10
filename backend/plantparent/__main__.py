@@ -8,14 +8,6 @@ from backend.plantparent.database import RecordsKeeper
 
 def main():
 
-    result: bool = True
-
-    ## Setup db engine and make tables if needed
-    sql_file = "sqlite:///plantparent.db"
-    engine = create_engine(sql_file, echo=True)
-    printing_press = RecordsKeeper(engine)
-    SQLModel.metadata.create_all(engine)
-
     return True
 
 
